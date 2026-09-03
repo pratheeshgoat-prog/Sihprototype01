@@ -53,10 +53,7 @@ roads_gdf = gpd.GeoDataFrame(
     ],
     crs="EPSG:4326"
 )
-if st.session_state.breach_triggered:
-    if st.sidebar.button("↩ Reset to stable"):
-        st.session_state.breach_triggered = False
-        st.rerun()
+
 # =========================================
 # SIDEBAR — BREACH SCENARIO PARAMETERS
 # (must be defined before anything below uses them)
