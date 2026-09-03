@@ -53,7 +53,10 @@ roads_gdf = gpd.GeoDataFrame(
     ],
     crs="EPSG:4326"
 )
-
+if st.session_state.breach_triggered:
+    if st.sidebar.button("↩ Reset to stable"):
+        st.session_state.breach_triggered = False
+        st.rerun()
 # =========================================
 # SIDEBAR — BREACH SCENARIO PARAMETERS
 # (must be defined before anything below uses them)
@@ -181,7 +184,13 @@ else:
 st.caption("Prediction method: linear trend extrapolation on recent readings — "
            "an illustrative heuristic, not a structural/geotechnical failure model.")
 
-breach_reached = current_level >= BREACH_THRESHOLD or st.button("🔴 Simulate breach now (demo trigger)")
+if "breach_triggered" not in st.session_state:
+    st.session_state.breach_triggered = False
+
+if st.button("🔴 Simulate breach now (demo trigger)"):
+    st.session_state.breach_triggered = True
+
+breach_reached = current_level >= BREACH_THRESHOLD or st.session_state.breach_triggered
 
 # =========================================
 # POST-BREACH IMPACT
